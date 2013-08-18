@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      {%- block title -%}
+        {%- if title -%}
+          {{ title }}
+        {%- else -%}
+          Apostrophe
+        {%- endif -%}
+      {%- endblock -%}
+    </title>
+
+    {% block css %}
+      {{ aposStylesheets(when) }}
+    {% endblock %}
+    {% block js %}
+      {{ aposScripts(when) }}
+    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head>
+  {# bodyClass should be a block but nunjucks doesn't have conditional extends yet, #}
+  {# so we're rendering an inner layout then passing the results to an outer one. #}
+  {# We also pull out bodyClass as a special case and pass it in here. #}
+  <body class="{{ bodyClass }} {% if edit %}logged-in{% else %}logged-out{% endif %}">
+    {% block beforeBody %}
+    {% endblock %}
+
+    {% block body %}
+    {% endblock %}
+
+    {# Must be present in the page in order to use apos's widget editors, admin dialogs, etc. #}
+    {{ aposTemplates(when) }}
+    <script type="text/javascript">
+      $(function() {
+        {# Set up apos.data properties pushed with apos.pushGlobalData and req.pushData #}
+        {{ data }}
+        {# Invoke calls set up with apos.pushGlobalCall and req.pushCall #}
+        {{ calls }}
+      });
+    </script>
+  </body>
+</html>

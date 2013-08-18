@@ -1,0 +1,60 @@
+{% include 'pagerMacros.html' %}
+
+{% macro renderBlogPosts(items, pageUrl) %}
+  {% if items %}
+    {% for item in items %}
+      {{ renderBlogPost(item, pageUrl) }}
+    {% endfor %}
+  {% else %}
+    <h4>There are no blog posts yet.</h4>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderBlogExcerpts(items, pageUrl) %}
+  {% if items %}
+    {% for item in items %}
+      {{ renderBlogExcerpt(item, pageUrl) }}
+    {% endfor %}
+  {% else %}
+    <h4>There are no blog posts yet.</h4>
+  {% endif %}
+{% endmacro %}
+
+{% macro renderBlogPost(item, pageUrl) %}
+  {% if item._edit %}
+    <div class="apos-control apos-button apos-absolute" data-edit-blog-post data-slug="{{ item.slug }}"><i class="icon-pencil"></i></div>
+  {% endif %}
+  <article class="blog{% for tag in item.tags %} {{ tag | css }}{% endfor %}">
+    <div class="blog-content">
+      <header class="blog-heading">
+        <h1 class="blog-title">
+         {{ item.title | e }}
+        </h1>
+        <div class="blog-meta">
+          Published on {{ item.publishedAt | date ('MMMM Do, YYYY') }}
+        </div>
+      </header>
+      {{ aposArea({ area: item.areas.body }) }}
+    </div>
+  </article>
+{% endmacro %}
+
+{% macro renderBlogExcerpt(item, pageUrl) %}
+  <div class="blog-excerpt">
+    <div class="blog-excerpt-thumbnail">
+
+      {# aposSingleton({ slug: item.slug + ':thumbnail', type: 'slideshow', area: item.areas.thumbnail, edit: false, size: 'one-third', noHeight: true }) #}
+      <div class="blog-month">{{ item.publicationDate | date('MMM DD') }}</div>
+      <div class="blog-day">{{ item.publicationDate | date('YYYY') }}</div>
+    </div>
+    <div class="blog-excerpt-content">
+      <h4 class="blog-title">
+        <a href="{{ pageUrl }}/{{ item.slug }}">{{ item.title | e }}</a>
+      </h4>
+      <div class="blog-text-preview">
+        {{ aposAreaPlaintext({ area: item.areas.body, truncate: 120 }) }}
+      </div>
+      <!-- <a class="blog-read-more" href="{{ pageUrl }}/{{ item.slug }}" class="event-more">Read More...</a> -->
+    </div>
+  </div>
+{% endmacro %}

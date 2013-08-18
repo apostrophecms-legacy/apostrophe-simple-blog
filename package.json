@@ -1,0 +1,19 @@
+{
+  "name": "apostrophe-blog-demo",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "appy": "0.x",
+    "uploadfs": "0.x",
+    "nunjucks": "0.1.x",
+    "apostrophe": "0.x",
+    "apostrophe-pages": "0.x",
+    "apostrophe-blog": "0.x",
+    "underscore": "~1.4.4",
+    "extend": "~1.1.3",
+    "optimist": "~0.5.2",
+    "async": "~0.2.9"
+  }
+}

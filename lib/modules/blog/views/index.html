@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% include "blogMacros.html" %}
+
+{% block bodyClass %}{{ super() }} blog-index{% endblock %}
+
+{%- macro here(changes) -%}
+  {{ page.url | build([ 'year', 'month' ], { year: activeYear, month: activeMonth, tag: query.tag }, changes) }}
+{%- endmacro -%}
+
+{% block mainContent %}
+  {{ renderBlogExcerpts(items, page.url) }}
+  {{ renderPager(pager, here({})) }}
+{% endblock %}

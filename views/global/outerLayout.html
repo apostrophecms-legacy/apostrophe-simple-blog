@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{# HTML with typical page structure, not necessarily an apostrophe-pages page document #}
+
+{% block body %}
+  {% block adminBar %}
+    {% if loginButton or permissions.edit or permissions.admin %}
+      <div class="apos-admin-bar">
+        <div class="apos-admin-bar-inner">
+          <div class="apos-logo-tiny">
+            A
+          </div>
+          {{ aposPagesMenu({ page: page, edit: edit }) }}
+          {{ aposBlogMenu({ edit: permissions.edit }) }}
+
+          {% if user %}
+            <div class="apos-admin-bar-item apos-preview-toggle">
+              <i class="icon-eye"></i>
+              <i class="icon-wrench"></i>
+            </div>
+          {% endif %}
+
+          <!-- <div class="apos-admin-bar-item apos-search">
+            <form action="/search">
+              {# Please do not put back a default value here unless #}
+              {# you have an implementation that really works for typical #}
+              {# user interactions like selecting it or typing over it. -Tom #}
+              Search: <input type="text" name="q" value="" class="search-field" />
+              <input type="submit" class="search-submit" value="Go" />
+            </form>
+          </div> -->
+
+          <div class="apos-admin-bar-item login-status">
+            {% if user %}
+              <a class="apos-button " href="/logout">
+                <span class="apos-who">{{ user.title }}</span>Log Out
+              </a>
+            {% else %}
+              <a class="apos-button " href="/login">Log In to Edit</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endblock %}
+
+  {# "Why are you doing this? Why not just have the inner layout extend the outer one?" #}
+  {# Because nunjucks doesn't yet support conditional extends and we want to support #}
+  {# AJAX refreshes of the main content area. -Tom #}
+
+  <div class="apos-refreshable" data-apos-refreshable>
+    {{ content }}
+  </div>
+
+{% endblock %}
+
